@@ -1,0 +1,22 @@
+{% load i18n %}
+<div class="page-header">
+    <h2>
+        {$ title $}
+        <small class="pull-right">
+            <a (click)="onAdd()" class="btn btn-default" role="button">
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+        </small>
+    </h2>
+</div>
+<div class="page-content">
+    <my-exchange *ngIf="selectedExchange" [exchange]="selectedExchange">
+        {% trans 'Loading exchange details' %}
+    </my-exchange>
+    <ul class="list-group">
+        <li *ngFor="let exchange of exchanges" (click)="onSelect(exchange)" class="list-group-item">
+                <span class="badge">{$ exchange.pk $}</span>
+                {$ exchange.who $}
+        </li>
+    </ul>
+</div>

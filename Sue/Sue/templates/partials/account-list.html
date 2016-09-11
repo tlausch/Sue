@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="page-header">
+    <h2>{$ title $}</h2>
+</div>
+<div class="page-content">
+    <ul class="list-group">
+        <li *ngFor="let account of accounts" (click)="onSelect(account)" class="list-group-item">
+                <span class="badge">{$ account.id $}</span>
+                {$ account.name $}
+        </li>
+    </ul>
+    <account-detail *ngIf="selectedAccount" [account]="selectedAccount">
+        {% trans 'Loading account details' %}
+    </account-detail>
+</div>
