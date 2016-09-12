@@ -15,7 +15,7 @@ export class Exchange{
     
     credit: number;
     
-    account: Account;
+    account: string;
     
     who: any
 }

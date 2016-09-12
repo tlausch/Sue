@@ -11,4 +11,4 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
 class ExchangeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Exchange
-        fields = ('category', 'what', 'where', 'when', 'credit', 'account', 'user')
+        fields = ('pk', 'category', 'what', 'where', 'when', 'credit', 'account', 'who')

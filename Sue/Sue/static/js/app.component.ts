@@ -1,4 +1,5 @@
-import { Input, OnInit } from '@angular/core';
+import { Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Http, RequestOptions, Headers } from '@angular/http';
 import { Component } from './app.helper';
 import {Account, Exchange} from './app.entities';
 import {AccountService, ExchangeService} from './app.services';
@@ -62,11 +63,18 @@ export class ExchangesComponent implements OnInit{
                     exchanges => this.exchanges = exchanges,
                     error =>  this.errorMessage = <any>error);
     }
-    onSelect(exchange: Exchange): void{
+    select(exchange: Exchange): void{
         this.selectedExchange = exchange;
     }
-    onAdd(): void{
+    create(): void{
         this.selectedExchange = new Exchange();
+        this.selectedExchange.what = "Carl-Zeiss Stipendium";
+        this.selectedExchange.account = "http://127.0.0.1:8000/api/account/1/";
+        this.selectedExchange.category = "Salary;";
+        this.selectedExchange.when = "2016-09-15";
+        this.selectedExchange.where = "Carl-Zeiss";
+        this.selectedExchange.credit = 1500;
+        this.selectedExchange.who = "http://127.0.0.1:8000/api/users/1/";
     }
 }
 
@@ -82,6 +90,22 @@ export class ExchangeEditComponent{
 
     @Input()
     exchange: Exchange;
+
+    @Output()
+    onClose = new EventEmitter();
+
+    save(exchange: Exchange): void {
+        this.exchangeService.createOrUpdate(exchange, exchange.pk).then(
+            (resp) => {console.log('saved', resp);}
+        ).catch((ex) => {console.log('exception', ex);});
+    }
+    close(): void{
+        this.onClose.emit()
+        this.exchange = null;
+    }
+    delete(): void{
+        this.exchangeService.delete(this.exchange, this.exchange.pk);
+    }
 }
 
 @Component({
@@ -97,6 +121,6 @@ export class AccountEditComponent {
 
     }
     save(account): void {
-        this.accountService.put(account);
+        // this.accountService.put(account);
     }
 }

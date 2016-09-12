@@ -3,20 +3,36 @@
     <h2>
         {$ title $}
         <small class="pull-right">
-            <a (click)="onAdd()" class="btn btn-default" role="button">
+            <a (click)="create()" class="btn btn-default" role="button">
                 <span class="glyphicon glyphicon-plus"></span>
             </a>
         </small>
     </h2>
 </div>
 <div class="page-content">
-    <my-exchange *ngIf="selectedExchange" [exchange]="selectedExchange">
+    <my-exchange *ngIf="selectedExchange" [exchange]="selectedExchange" (onClose)="select(null)">
         {% trans 'Loading exchange details' %}
     </my-exchange>
-    <ul class="list-group">
-        <li *ngFor="let exchange of exchanges" (click)="onSelect(exchange)" class="list-group-item">
-                <span class="badge">{$ exchange.pk $}</span>
-                {$ exchange.who $}
-        </li>
-    </ul>
+    <table class="table">
+        <thead>
+            <th>#</th>
+            <th>What</th>
+            <th>Account</th>
+            <th>Date</th>
+            <th>&euro;</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let exchange of exchanges" (click)="select(exchange)">
+                <th>{$ exchange.pk $}</th>
+                <td>{$ exchange.what $}</td>
+                <td>{$ exchange.account $}</td>
+                <td>{$ exchange.when $}</td>
+                <td>
+                    <span class="label label-success">
+                        + {$ exchange.credit $}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

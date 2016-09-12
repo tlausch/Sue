@@ -2,16 +2,86 @@
 <div class="page-header">
     <h3>
         Details
+        <small>
+            #{$ exchange.pk $}
+        </small>
         <small class="pull-right">
-            {% if user.is_authenticated %}
-                <span class="btn-group">
-                    <a class="btn btn-default" title="{% trans 'save' %}" (click)="save(account)">
+            <span class="btn-group">
+                {% if user.is_authenticated %}
+                    <a class="btn btn-default" title="{% trans 'Save' %}" (click)="save(exchange)">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                     </a>
-                </span>
-            {% endif %}
+                    <a class="btn btn-danger" title="{% trans 'Delete' %}" (click)="delete()">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                {% endif %}
+                <a class="btn btn-default" title="{% trans 'Close' %}" (click)="close()">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </span>
         </small>
     </h3>
 </div>
 <div class="page-content">
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <label for="category">{% trans 'Category' %}:</label>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <input id="category" placeholder="categories: car; repair" type="text" class="form-control" [(ngModel)]="exchange.category" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <label for="what">{% trans 'What' %}:</label>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <input id="what" placeholder="what: batteries" type="text" class="form-control" [(ngModel)]="exchange.what" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <label for="when">{% trans 'when' %}:</label>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <input id="when" placeholder="when: YYYY/MM/DD" type="text" class="form-control" [(ngModel)]="exchange.when" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <label for="where">{% trans 'where' %}:</label>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <input id="where" placeholder="where: Tankstelle" type="text" class="form-control" [(ngModel)]="exchange.where" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <label for="credit">{% trans 'Credit' %}:</label>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <div class="input-group">
+                <input id="credit" placeholder="+100,00" type="number" class="form-control" [(ngModel)]="exchange.credit" />
+                <span class="input-group-addon">
+                    €
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <label for="account">{% trans 'Account' %}:</label>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <input id="account" placeholder="Account Name" type="text" class="form-control" [(ngModel)]="exchange.account" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <label for="who">{% trans 'Who' %}:</label>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <input id="who" placeholder="Name" type="text" class="form-control" [(ngModel)]="exchange.who" />
+        </div>
+    </div>
 </div>

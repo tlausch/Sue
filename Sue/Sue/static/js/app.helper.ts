@@ -1,13 +1,18 @@
 import { ComponentMetadataFactory, ComponentMetadataType, Component as _Component } from '@angular/core';
-import {DEFAULTINTERPOLATION_CONFIG } from '@angular/compiler';
 
-export var partial = (templateUrl):string => {
+export function isNullOrUndefined(nullable: any):boolean {
+    return nullable == null || nullable == undefined;
+}
+
+function partial(templateUrl):string {
     return '../../partials/' + templateUrl;
-};
+}
 
-export var Component = (obj: ComponentMetadataType) => {
+export function Component(obj: ComponentMetadataType): any {
     // inject partial if templateUrl is provided
     obj.templateUrl = partial(obj.templateUrl);
+    // either define the interpolation here
+    // or use DEFAULT_INTERPOLATION_CONFIG from @angular/compiler
     // obj.interpolation = ['{$', '$}'];
     return  _Component(obj);
 }
