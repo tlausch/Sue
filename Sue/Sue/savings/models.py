@@ -27,6 +27,9 @@ class Exchange(models.Model):
     # put charge on which account
     account = models.ForeignKey(Account)
 
+    # true if expense is verified
+    confirmed = models.BooleanField(default=False)
+
     # the user who charged the account.
     who = models.ForeignKey(User)
 
