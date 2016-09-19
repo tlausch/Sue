@@ -50,10 +50,11 @@ export class AccountsComponent implements OnInit{
 export class ExchangesComponent implements OnInit{
     title: string = 'List of Exchanges';
 
-    constructor(private exchangeService: ExchangeService) {
+    constructor(private exchangeService: ExchangeService,
+    private accountService: AccountService) {
     }
 
-
+    accounts: Account[];
     exchanges : Exchange[];
     selectedExchange: Exchange;
     errorMessage: string;
@@ -62,6 +63,9 @@ export class ExchangesComponent implements OnInit{
         this.exchangeService.get().subscribe(
                     exchanges => this.exchanges = exchanges,
                     error =>  this.errorMessage = <any>error);
+        this.accountService.get().subscribe(
+            accounts => this.accounts = accounts,
+            error => this.errorMessage = <any>error);
     }
     select(exchange: Exchange): void{
         this.selectedExchange = exchange;
@@ -84,16 +88,35 @@ export class ExchangesComponent implements OnInit{
     selector: 'my-exchange',
     templateUrl: 'exchange-edit.html',
 })
-export class ExchangeEditComponent{
-    constructor(private exchangeService: ExchangeService) {
+export class ExchangeEditComponent implements OnInit{
+    constructor(private exchangeService: ExchangeService,
+    private accountService: AccountService) {
+    }
+
+    public account;
+    private accounts: Account[];
+    private errorMessage: string;
+    ngOnInit(): void {
+        this.accountService.get().subscribe(
+            accounts => this.accounts = accounts,
+            error => this.errorMessage = <any>error);
+
+        this.accountService.$get(this.exchange.account).then(
+            (result) => this.account = result,
+            (ex) => this.errorMessage = <any>ex
+        );
     }
 
     @Input()
     exchange: Exchange;
 
+
     @Output()
     onClose = new EventEmitter();
 
+    confirm(): void{
+        this.exchange.confirmed = !this.exchange.confirmed;
+    }
     save(exchange: Exchange): void {
         this.exchangeService.createOrUpdate(exchange, exchange.pk).then(
             (resp) => {console.log('saved', resp);}

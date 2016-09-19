@@ -3,7 +3,7 @@ import { Response, Http, RequestOptions, Headers } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import './app.rxjs-operators';
 
-import {Account, Exchange}        from './app.entities';
+import {Account, Exchange, User}        from './app.entities';
 import { isNullOrUndefined }      from "./app.helper";
 
 const ACCOUNTS_URL: string = '/api/account/';
@@ -20,20 +20,37 @@ export class ApiService<T> {
             .map(this.extractData)
             .catch(this.handleError)
     }
+    public $get(url:string): Promise<any>{
+        if (isNullOrUndefined(url))
+            throw Error("Missing url");
+
+        return this.http.get(url).toPromise<any>();
+    }
+    public $url(obj:any): string {
+        return this.url + obj.pk + '/';
+    }
+    public query(id: number):  Promise<T> {
+        if(isNullOrUndefined(id))
+            throw Error("Missing id");
+
+        let url = this.url + id.toString() + '/';
+
+        return this.http.get(url).toPromise<T>();
+    }
     public createOrUpdate(obj: T, id?: number): Promise<T> {
         let body = JSON.stringify(obj);
 
         if(isNullOrUndefined(id)) // create
-            return this.http.post(this.url, body).toPromise();
+            return this.http.post(this.url, body).toPromise<T>();
 
         // update
         let url = this.url + id.toString() + '/';
-        return this.http.put(url, body).toPromise();
+        return this.http.put(url, body).toPromise<T>();
 
     }
     public delete(obj: T, id: number): Promise<T> {
         let url = this.url + id.toString() + '/';
-        return this.http.delete(url, obj).toPromise();
+        return this.http.delete(url, obj).toPromise<T>();
     }
 
     private extractData(res: Response){

@@ -73,7 +73,9 @@
             <label for="account">{% trans 'Account' %}:</label>
         </div>
         <div class="col-xs-12 col-md-10">
-            <input id="account" placeholder="Account Name" type="text" class="form-control" [(ngModel)]="exchange.account" />
+            <select [(ngModel)]="exchange.account" class="form-control">
+                <option *ngFor="let a of accounts" [value]="a.url" [selected]="a.url === exchange.account">{$ a.name $}</option>
+            </select>
         </div>
     </div>
     <div class="row">
@@ -82,6 +84,14 @@
         </div>
         <div class="col-xs-12 col-md-10">
             <input id="who" placeholder="Name" type="text" class="form-control" [(ngModel)]="exchange.who" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <label for="confirmed">{% trans 'Confirmed' %}:</label>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            <button type="button" class="btn" (click)="confirm()" [class.btn-primary]="exchange.confirmed" [class.btn-danger]="!exchange.confirmed">{% trans 'Confirmed' %}</button>
         </div>
     </div>
 </div>

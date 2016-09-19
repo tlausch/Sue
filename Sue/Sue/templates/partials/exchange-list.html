@@ -13,7 +13,7 @@
     <my-exchange *ngIf="selectedExchange" [exchange]="selectedExchange" (onClose)="select(null)">
         {% trans 'Loading exchange details' %}
     </my-exchange>
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <th>#</th>
             <th>What</th>
@@ -22,7 +22,7 @@
             <th>&euro;</th>
         </thead>
         <tbody>
-            <tr *ngFor="let exchange of exchanges" (click)="select(exchange)">
+            <tr *ngFor="let exchange of exchanges" (click)="select(exchange)" [class.warning]="!exchange.confirmed">
                 <th>{$ exchange.pk $}</th>
                 <td>{$ exchange.what $}</td>
                 <td>{$ exchange.account $}</td>
